@@ -8,6 +8,7 @@
 extern crate rand;
 use rand::Rng;
 
+const CONSOLE      : bool  = false;
 const ARRAY_LENGTH : usize = 31;
 const ITERATIONS   : usize = 15;
 
@@ -15,7 +16,11 @@ const ITERATIONS   : usize = 15;
 fn print_char(block: bool) {
     print!(
         "{}",
-        if block { "⬛" } else { "⬜" }
+        match CONSOLE {
+            false => if block { "⬛" } else { "⬜" }
+            true  => if block { "█" } else { " " }
+        }
+        
     )
     // "█" or "⬛" and " " or "⬜"
 }
