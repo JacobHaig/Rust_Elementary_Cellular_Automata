@@ -4,25 +4,36 @@
 // https://github.com/JacobHaig/Rust-Elementary-Cellular-Automata/
 
 #![allow(non_snake_case)]
-
 extern crate rand;
 use rand::Rng;
 
-const CONSOLE      : bool  = false;
-const ARRAY_LENGTH : usize = 31;
-const ITERATIONS   : usize = 15;
+const TEXT_TYPE     : TextType = TextType::UnicodeBlock; // Set true if working in the console
+const ARRAY_LENGTH  : usize = 31;
+const ITERATIONS    : usize = 15;
+
+// This enum allows for differant types of text to be printed
+#[allow(dead_code)]
+enum TextType {
+    AsciiBlock,
+    UnicodeBlock,
+    UnicodeAnimals,
+}
+
+// This function selects the text based of selected ENUM
+fn select_block(text: TextType, is_solid: bool) -> &'static str {
+    match text {
+        TextType::AsciiBlock    => if is_solid { "█" } else { " " },
+        TextType::UnicodeBlock  => if is_solid { "⬛" } else { "⬜" },
+        TextType::UnicodeAnimals  => if is_solid { "🐶" } else { "😺" },
+    }
+}
 
 // Print a single char which represents the "cell"
-fn print_char(block: bool) {
+fn print_char(is_solid: bool) {
     print!(
         "{}",
-        match CONSOLE {
-            false => if block { "⬛" } else { "⬜" }
-            true  => if block { "█" } else { " " }
-        }
-        
+        select_block(TEXT_TYPE, is_solid)
     )
-    // "█" or "⬛" and " " or "⬜"
 }
 
 // Loop over the array and print each cell
