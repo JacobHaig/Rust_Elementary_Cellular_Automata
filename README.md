@@ -24,7 +24,7 @@ Because Rust can output in Unicode, we can use anytype of charator avalible incl
 ⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛⬜⬜⬜⬛
 ```
 
-Because we allow grid-wrapping, interesting pattern can emerge.
+Because we allow grid-wrapping, interesting patterns can emerge.
 ```
 Printing Rule 225
 ⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬛⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜
