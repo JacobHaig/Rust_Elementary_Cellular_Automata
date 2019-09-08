@@ -1,42 +1,36 @@
 // Create by Jacob Haig
 // Written in Rust
-// Date 8/5/2019
+// Date 9/8/2019
 // https://github.com/JacobHaig/Rust-Elementary-Cellular-Automata/
 
 #![allow(non_snake_case)]
+
 extern crate rand;
 use rand::Rng;
 
-const TEXT_TYPE     : TextType = TextType::UnicodeBlock; // Set true if working in the console
-const ARRAY_LENGTH  : usize = 31;
-const ITERATIONS    : usize = 15;
+use ggez::event::{self, EventHandler};
+use ggez::*;
+use ggez::graphics::*;
 
-// This enum allows for differant types of text to be printed
-#[allow(dead_code)]
-enum TextType {
-    AsciiBlock,
-    UnicodeBlock,
-    UnicodeAnimals,
-}
-
-// This function selects the text based of selected ENUM
-fn select_block(text: TextType, is_solid: bool) -> &'static str {
-    match text {
-        TextType::AsciiBlock    => if is_solid { "█" } else { " " },
-        TextType::UnicodeBlock  => if is_solid { "⬛" } else { "⬜" },
-        TextType::UnicodeAnimals  => if is_solid { "🐶" } else { "😺" },
-    }
-}
+const CONSOLE: bool = false;
+const ARRAY_LENGTH: usize = 31;
+const ITERATIONS: usize = 15;
 
 // Print a single char which represents the "cell"
-fn print_char(is_solid: bool) {
+#[allow(dead_code)]
+fn print_char(block: bool) {
     print!(
         "{}",
-        select_block(TEXT_TYPE, is_solid)
+        if CONSOLE {
+            if block {"█"} else {" "}
+        } else
+            if block {"⬛"} else {"⬜"}
     )
+    // "█" or "⬛" and " " or "⬜"
 }
 
 // Loop over the array and print each cell
+#[allow(dead_code)]
 fn print_array(array: &[bool]) {
     for b in array {
         print_char(*b);
@@ -54,6 +48,7 @@ fn rand_array(array: &mut [bool], p: f64) {
 }
 
 // Transfer the temp array to the first
+#[allow(dead_code)]
 fn transfer(array: &mut [bool], array2: &[bool]) {
     for i in 0..ARRAY_LENGTH {
         array[i as usize] = array2[i as usize];
@@ -62,19 +57,16 @@ fn transfer(array: &mut [bool], array2: &[bool]) {
 
 // This allows the grid to wrap. This is more accurate than constant-value edge cells
 fn wrap(mut n: isize) -> usize {
-    if n < 0 {
-        n += ARRAY_LENGTH as isize;
-    }
-    if n > ARRAY_LENGTH  as isize - 1 {
-        n -= ARRAY_LENGTH as isize;
-    }
+    if n < 0 { n += ARRAY_LENGTH as isize; }
+    if n > ARRAY_LENGTH as isize - 1 { n -= ARRAY_LENGTH as isize; }
 
     n as usize
 }
 
 // Logic for creating new array.
-fn next_line(mut array: &mut [bool], rules: &[bool]) {
-    let mut array2: [bool; ARRAY_LENGTH] = [false; ARRAY_LENGTH];
+fn next_line( array: &[bool], rules: &[bool]) -> Vec<bool>{
+    let mut array2 = vec![false; ARRAY_LENGTH];
+    //let mut array2: [bool; ARRAY_LENGTH] = [false; ARRAY_LENGTH];
 
     for (i, _b) in array.iter().enumerate() {
         let left_cell = (array[wrap(i as isize - 1)]) as usize * 4;
@@ -89,7 +81,8 @@ fn next_line(mut array: &mut [bool], rules: &[bool]) {
         array2[i] = rules[index];
     }
 
-    transfer(&mut array, &array2);
+    //transfer(&mut array, &array2);
+    array2
 }
 
 // Create rule array for comparing later
@@ -112,17 +105,74 @@ fn rule_to_bin(mut n: i32) -> [bool; 8] {
 }
 
 fn main() {
-    for rule_number in 0..256 {
-        print!("\nPrinting Rule {}\n", rule_number);
-        let rules = rule_to_bin(rule_number);
+    // Make a Context.
+    let (mut ctx, mut event_loop) = ContextBuilder::new("my_game", "Cool Game Author")
+        .build()
+        .expect("aieee, could not create ggez context!");
 
-        let mut array: [bool; ARRAY_LENGTH] = [false; ARRAY_LENGTH];
-        array[ARRAY_LENGTH / 2] = true;
-        //rand_array(&mut array, 0.5);
+    // Create an instance of your event handler.
+    let mut game_state = GameState::new(&mut ctx, 225);
+    game_state.create_array();
+
+    match event::run(&mut ctx, &mut event_loop, &mut game_state) {
+        Ok(_) => println!("Exited cleanly."),
+        Err(e) => println!("Error occured: {}", e),
+    }
+}
+
+struct GameState {
+    rules: [bool; 8],
+    array: Vec<Vec<bool>>,
+}
+
+// Load/create resources such as images here.
+impl GameState {
+    pub fn new(_ctx: &mut Context, rule: i32) -> GameState {
+        GameState {
+            rules: rule_to_bin(rule),
+            array: Vec::new(),
+        }
+    }
+
+    pub fn create_array(&mut self) {
+        let mut first_array: Vec<bool> = vec![false; ARRAY_LENGTH];
+        first_array[ARRAY_LENGTH / 2] = true;
+
+        self.array.push(first_array);
 
         for _i in 0..ITERATIONS {
-            print_array(&array);
-            next_line(&mut array, &rules);
+            let new_array = next_line(& self.array.last().unwrap(), & self.rules);
+            self.array.push(new_array);
         }
+    }
+}
+
+impl EventHandler for GameState {
+    // Update code here...
+    fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
+        Ok(())
+    }
+
+     // Draw code here...
+    fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
+        let window = graphics::window(ctx).get_inner_size().unwrap();
+        let block_size = window.width as f32 / ARRAY_LENGTH as f32;
+
+        graphics::clear(ctx, graphics::WHITE);
+
+
+        for (row, array) in self.array.iter().enumerate() {
+            for (count,block) in array.iter().enumerate() {
+                if *block {
+
+                    let rect = graphics::Rect::new(count as f32 * block_size, row as f32 * block_size, block_size, block_size);
+                    let mesh = graphics::Mesh::new_rectangle(ctx, DrawMode::fill(),rect, graphics::BLACK)?;
+                    graphics::draw(ctx, &mesh,DrawParam::default())?;
+                }
+            }
+        }
+
+        graphics::present(ctx)?;
+        Ok(())
     }
 }

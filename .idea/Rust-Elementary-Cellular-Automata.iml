@@ -6,6 +6,9 @@
       <sourceFolder url="file://$MODULE_DIR$/examples" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/benches" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../Rust-Elementary-Cellular-Automata\examples" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../Rust-Elementary-Cellular-Automata\tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../Rust-Elementary-Cellular-Automata\benches" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
