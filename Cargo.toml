@@ -1,6 +1,6 @@
 [package]
-name = "Rust-Elementary-Cellular-Automata"
-version = "0.1.0"
+name = "rust_elementary_cellular_automata"
+version = "0.1.1"
 authors = ["Jacob <jacobedwardhaig@gmail.com>"]
 edition = "2018"
 
