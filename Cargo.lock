@@ -1601,7 +1601,7 @@ dependencies = [
 
 [[package]]
 name = "rust_elementary_cellular_automata"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "ggez 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",

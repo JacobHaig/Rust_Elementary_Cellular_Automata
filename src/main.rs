@@ -11,8 +11,8 @@ use ggez::graphics::*;
 use ggez::*;
 
 const RULE: i32 = 57;
-const ARRAY_LENGTH: usize = 51;
-const ITERATIONS: usize = 40;
+const ARRAY_LENGTH: usize = 81;
+const ITERATIONS: usize = 80;
 
 struct GameState {
     rules: [bool; 8],
@@ -66,6 +66,7 @@ fn next_line(array: &[bool], rules: &[bool]) -> Vec<bool> {
 }
 
 // Create rule array for comparing later
+#[rustfmt::skip]
 fn rule_to_bin(mut n: i32) -> [bool; 8] {
     let mut rules: [bool; 8] = [false; 8];
 
@@ -84,7 +85,6 @@ fn rule_to_bin(mut n: i32) -> [bool; 8] {
     rules
 }
 
-// Create resources here.
 impl GameState {
     pub fn new(_ctx: &mut Context, rule: i32) -> GameState {
         GameState {
@@ -114,8 +114,11 @@ impl EventHandler for GameState {
 
     // Draw code here...
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
-        let window = graphics::window(ctx).get_inner_size().unwrap();
-        let block_size = window.width as f32 / ARRAY_LENGTH as f32;
+        //let window = graphics::window(ctx);
+
+        // IDK why 600 and 800 are the factors. Maybe its the default and im scaling it when I change the resolution?
+        let  block_height = 600.0 / ITERATIONS as f32;
+        let  block_width = 800.0 / ARRAY_LENGTH as f32;
 
         // Set screen to white
         graphics::clear(ctx, graphics::WHITE);
@@ -128,10 +131,10 @@ impl EventHandler for GameState {
                         ctx,
                         DrawMode::fill(),
                         graphics::Rect::new(
-                            count as f32 * block_size,
-                            row as f32 * block_size,
-                            block_size,
-                            block_size,
+                            count as f32 * block_width,
+                            row as f32 * block_height,
+                            block_width,
+                            block_height,
                         ),
                         graphics::BLACK,
                     )?;
@@ -151,13 +154,25 @@ impl EventHandler for GameState {
 // MAIN!
 fn main() {
     // Configuration
-    let config = conf::Conf::new();
+    let win_mode = ggez::conf::WindowMode {
+        width: 800.0,
+        height: 600.0,
+        maximized: false,
+        resizable: true,
+        borderless: false,
+
+        min_width: 100.0,
+        min_height: 100.0,
+        max_width: 0.0,
+        max_height: 0.0,
+        fullscreen_type: ggez::conf::FullscreenType::Windowed,
+    };
 
     // Context
     let cb = ContextBuilder::new("Rust Elementary Cellular Automata", "Wisward");
-    let (mut ctx, mut event_loop) = cb.conf(config).build().expect("Could not create context!");
+    let (mut ctx, mut event_loop) = cb.build().expect("Could not create context!");
     graphics::set_window_title(&ctx, "Rust Elementary Cellular Automata");
-    //graphics::set_resizable(&mut ctx, true); // Doesnt work correctly
+    graphics::set_mode(&mut ctx, win_mode).expect("Can't set window mode.");
 
     // State
     let mut game_state = GameState::new(&mut ctx, RULE);

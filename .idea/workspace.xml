@@ -8,10 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output-AsciiBlock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output-UnicodeAnimals" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output-UnicodeBlocks" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -53,7 +49,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.Run">
+  <component name="RunManager" selected="Cargo Command.Release">
     <list>
       <item itemvalue="Cargo Command.Build" />
       <item itemvalue="Cargo Command.Format" />
