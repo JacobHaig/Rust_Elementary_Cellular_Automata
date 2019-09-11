@@ -1,20 +1,26 @@
 // Create by Jacob Haig
 // Written in Rust
-// Updated 9/8/2019
+// Updated 9/10/2019
 // https://github.com/JacobHaig/Rust-Elementary-Cellular-Automata/
 
 extern crate rand;
 use rand::Rng;
 
-use ggez::event::{self, EventHandler};
+mod imgui_wrapper;
+
+extern crate ggez;
+use crate::imgui_wrapper::ImGuiWrapper;
+use ggez::event::{self, EventHandler, KeyCode, KeyMods, MouseButton};
 use ggez::graphics::*;
 use ggez::*;
+use ggez::{Context, GameResult};
 
 const RULE: i32 = 57;
 const ARRAY_LENGTH: usize = 81;
 const ITERATIONS: usize = 80;
 
 struct GameState {
+    imgui_wrapper: ImGuiWrapper,
     rules: [bool; 8],
     array: Vec<Vec<bool>>,
 }
@@ -86,10 +92,11 @@ fn rule_to_bin(mut n: i32) -> [bool; 8] {
 }
 
 impl GameState {
-    pub fn new(_ctx: &mut Context, rule: i32) -> GameState {
+    pub fn new(mut ctx: &mut Context, rule: i32) -> GameState {
         GameState {
             rules: rule_to_bin(rule), // Generate the Rules
             array: Vec::new(),
+            imgui_wrapper: ImGuiWrapper::new(&mut ctx),
         }
     }
 
@@ -117,8 +124,8 @@ impl EventHandler for GameState {
         //let window = graphics::window(ctx);
 
         // IDK why 600 and 800 are the factors. Maybe its the default and im scaling it when I change the resolution?
-        let  block_height = 600.0 / ITERATIONS as f32;
-        let  block_width = 800.0 / ARRAY_LENGTH as f32;
+        let block_height = 600.0 / ITERATIONS as f32;
+        let block_width = 800.0 / ARRAY_LENGTH as f32;
 
         // Set screen to white
         graphics::clear(ctx, graphics::WHITE);
@@ -129,7 +136,7 @@ impl EventHandler for GameState {
                     // Create a mesh with a Rectangle. Set it to fill.
                     let mesh = graphics::Mesh::new_rectangle(
                         ctx,
-                        DrawMode::fill(),
+                        graphics::DrawMode::fill(),
                         graphics::Rect::new(
                             count as f32 * block_width,
                             row as f32 * block_height,
@@ -145,9 +152,56 @@ impl EventHandler for GameState {
             }
         }
 
+        // Render game ui
+        {
+            self.imgui_wrapper.render(ctx);
+        }
         // Display screen
         graphics::present(ctx)?;
         Ok(())
+    }
+
+    fn mouse_motion_event(&mut self, _ctx: &mut Context, x: f32, y: f32, _dx: f32, _dy: f32) {
+        self.imgui_wrapper.update_mouse_pos(x, y);
+    }
+
+    fn mouse_button_down_event(
+        &mut self,
+        _ctx: &mut Context,
+        button: MouseButton,
+        _x: f32,
+        _y: f32,
+    ) {
+        self.imgui_wrapper.update_mouse_down((
+            button == MouseButton::Left,
+            button == MouseButton::Right,
+            button == MouseButton::Middle,
+        ));
+    }
+
+    fn mouse_button_up_event(
+        &mut self,
+        _ctx: &mut Context,
+        _button: MouseButton,
+        _x: f32,
+        _y: f32,
+    ) {
+        self.imgui_wrapper.update_mouse_down((false, false, false));
+    }
+
+    fn key_down_event(
+        &mut self,
+        _ctx: &mut Context,
+        keycode: KeyCode,
+        _keymods: KeyMods,
+        _repeat: bool,
+    ) {
+        match keycode {
+            KeyCode::P => {
+                self.imgui_wrapper.open_popup();
+            }
+            _ => (),
+        }
     }
 }
 
