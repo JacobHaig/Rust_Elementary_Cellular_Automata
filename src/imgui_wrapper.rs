@@ -2,7 +2,6 @@ use ggez::graphics;
 use ggez::Context;
 
 use gfx_core::{handle::RenderTargetView, memory::Typed};
-
 use gfx_device_gl;
 
 use imgui::*;
@@ -52,7 +51,7 @@ impl ImGuiWrapper {
         // Renderer
         let renderer = Renderer::init(&mut imgui, &mut *factory, shaders).unwrap();
 
-        // Create instace
+        // Create instance
         Self {
             imgui,
             renderer,
