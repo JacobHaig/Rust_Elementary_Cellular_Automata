@@ -5,13 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c600ca42-0054-4aef-a678-520ab9258e01" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/array.rs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/imgui_wrapper.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/imgui_wrapper.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/array.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/array.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/imgui_wrapper.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/imgui.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/state.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/state.rs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -44,6 +42,7 @@
   <component name="ProjectId" id="1QRPYogjSICRgtgpLfL7hRXdKUE" />
   <component name="PropertiesComponent">
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
+    <property name="org.rust.hideDetachedFileNotificationsC:/Users/jacob/Documents/GitHub/Rust-Elementary-Cellular-Automata/src/events.rs" value="true" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
@@ -59,7 +58,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.Release">
+  <component name="RunManager" selected="Cargo Command.Check">
     <list>
       <item itemvalue="Cargo Command.Build" />
       <item itemvalue="Cargo Command.Format" />

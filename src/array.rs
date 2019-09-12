@@ -1,4 +1,5 @@
 extern crate rand;
+use crate::state::GameState;
 use crate::*;
 use rand::Rng;
 
@@ -12,15 +13,12 @@ pub fn rand_array(array: &mut [bool], p: f64) {
 }
 
 // This allows the grid to wrap. This is more accurate than constant-value edge cells
+#[rustfmt::skip]
 pub fn wrap(mut n: isize) -> usize {
     const LEN: isize = ARRAY_LENGTH as isize;
 
-    if n < 0 {
-        n += LEN;
-    }
-    if n > LEN - 1 {
-        n -= LEN;
-    }
+    if n < 0       { n += LEN; }
+    if n > LEN - 1 { n -= LEN; }
 
     n as usize
 }
@@ -34,18 +32,19 @@ pub fn get_rule_index(array: &[bool], index: usize) -> usize {
     left_cell + mid_cell + right_cell
 }
 
-// Logic for creating new array.
-pub fn next_line(array: &[bool], rules: &[bool]) -> Vec<bool> {
-    let mut array2 = vec![false; ARRAY_LENGTH];
+// Logic for creating new vect.
+pub fn next_line(state: &mut GameState) {
+    let mut array: [bool; ARRAY_LENGTH] = [false; ARRAY_LENGTH];
+    let last = state.vect.last().unwrap();
 
-    for (i, _b) in array.iter().enumerate() {
-        let index: usize = get_rule_index(array, i);
+    for (i, _b) in last.iter().enumerate() {
+        let index: usize = get_rule_index(last, i);
 
         // Depending on the arrangement of cell values, the rules decide the next value.
-        array2[i] = rules[index];
+        array[i] = state.rules[index];
     }
 
-    array2
+    state.vect.push(array);
 }
 
 // Create rule array for comparing later
@@ -66,4 +65,12 @@ pub fn rule_to_bin(mut n: i32) -> [bool; 8] {
     if n != 0 { panic!("Error: rules not set correctly! Rule number must be from 0 to 255"); }
 
     rules
+}
+
+#[allow(dead_code)]
+fn print_array(array: &[bool]) {
+    for b in array {
+        print!("{}", if *b { "⬛" } else { "⬜" });
+    }
+    println!();
 }
