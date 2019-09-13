@@ -10,7 +10,7 @@ extern crate ggez;
 use ggez::event::*;
 use ggez::*;
 
-const RULE: i32 = 18;
+const RULE: i32 = 57;
 const ARRAY_LENGTH: usize = 201;
 const ITERATIONS: usize = 400;
 

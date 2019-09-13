@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c600ca42-0054-4aef-a678-520ab9258e01" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/rule18.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/rule18.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/array.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/array.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/imgui.rs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/rule40.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/state.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/state.rs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
