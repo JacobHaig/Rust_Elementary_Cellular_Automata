@@ -10,7 +10,7 @@ Recently, i've moved  to using ggez for all of the rendering. I have way more op
 
 #### Rule 30
 
-![Rule 30](https://raw.githubusercontent.com/JacobHaig/Rust_Elementary_Cellular_Automata/master/images/rule30.png)
+![Rule 30](https://raw.githubusercontent.com/JacobHaig/Rust_Elementary_Cellular_Automata/master/images/rule30.PNG)
 
 #### Rule 57
 
