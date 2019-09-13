@@ -1,11 +1,9 @@
 extern crate ggez;
 
-use crate::imgui::*;
 use crate::*;
 use array;
 
 pub struct GameState {
-    pub imgui_wrapper: ImGuiWrapper,
     pub rules: [bool; 8],
     pub vect: Vec<[bool; ARRAY_LENGTH]>,
 }
@@ -15,7 +13,6 @@ impl GameState {
         GameState {
             rules: array::rule_to_bin(rule), // Generate the Rules
             vect: Vec::new(),
-            imgui_wrapper: ImGuiWrapper::new(&mut ctx),
         }
     }
 
@@ -26,7 +23,7 @@ impl GameState {
         first_array[first_array.len() / 2] = true; // Set the middle element to true
         self.vect.push(first_array);
 
-        // Grow ARRAY
+        // Grow ARRAY to set size
         for _i in 0..ITERATIONS {
             array::next_line(self);
         }
@@ -35,92 +32,48 @@ impl GameState {
 
 impl EventHandler for state::GameState {
     // Update code here...
-    fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
+    fn update(&mut self, ctx: &mut Context) -> GameResult<()> {
+        println!("{}", ggez::timer::fps(ctx));
         Ok(())
     }
 
     // Draw code here...
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
-        //let window = graphics::window(ctx);
+        // Set screen to white
+        ggez::graphics::clear(ctx, ggez::graphics::WHITE);
+
 
         // IDK why 600 and 800 are the factors. Maybe its the default and im scaling it when I change the resolution?
         let block_height = 600.0 / ITERATIONS as f32;
         let block_width = 800.0 / ARRAY_LENGTH as f32;
 
-        // Set screen to white
-        ggez::graphics::clear(ctx, ggez::graphics::WHITE);
+        // Create mesh_builder as it is much faster than creating many Meshs
+        let mut mesh_builder = graphics::MeshBuilder::new();
 
         for (row, array) in self.vect.iter().enumerate() {
             for (count, block) in array.iter().enumerate() {
                 if *block {
                     // Create a mesh with a Rectangle. Set it to fill.
-                    let mesh = ggez::graphics::Mesh::new_rectangle(
-                        ctx,
-                        ggez::graphics::DrawMode::fill(),
-                        ggez::graphics::Rect::new(
-                            count as f32 * block_width,
-                            row as f32 * block_height,
-                            block_width,
-                            block_height,
-                        ),
-                        ggez::graphics::BLACK,
-                    )?;
+                    let rect = ggez::graphics::Rect::new(
+                        count as f32 * block_width,
+                        row as f32 * block_height,
+                        block_width,
+                        block_height,
+                    );
 
-                    // Pass the mesh to be drawn
-                    ggez::graphics::draw(ctx, &mesh, ggez::graphics::DrawParam::default())?;
+                    // Append a rectangle to mesh_builder
+                    mesh_builder.rectangle(ggez::graphics::DrawMode::fill(), rect, graphics::BLACK);
                 }
             }
         }
 
-        // Render game ui
-        {
-            self.imgui_wrapper.render(ctx);
-        }
+        // Convert all the meshes to a single mesh
+        let meshes = mesh_builder.build(ctx)?;
+        // Pass the meshes to be drawn
+        ggez::graphics::draw(ctx, &meshes, ggez::graphics::DrawParam::default())?;
+
         // Display screen
         ggez::graphics::present(ctx)?;
         Ok(())
-    }
-
-    fn mouse_motion_event(&mut self, _ctx: &mut Context, x: f32, y: f32, _dx: f32, _dy: f32) {
-        self.imgui_wrapper.update_mouse_pos(x, y);
-    }
-
-    fn mouse_button_down_event(
-        &mut self,
-        _ctx: &mut Context,
-        button: MouseButton,
-        _x: f32,
-        _y: f32,
-    ) {
-        self.imgui_wrapper.update_mouse_down((
-            button == MouseButton::Left,
-            button == MouseButton::Right,
-            button == MouseButton::Middle,
-        ));
-    }
-
-    fn mouse_button_up_event(
-        &mut self,
-        _ctx: &mut Context,
-        _button: MouseButton,
-        _x: f32,
-        _y: f32,
-    ) {
-        self.imgui_wrapper.update_mouse_down((false, false, false));
-    }
-
-    fn key_down_event(
-        &mut self,
-        _ctx: &mut Context,
-        keycode: KeyCode,
-        _keymods: KeyMods,
-        _repeat: bool,
-    ) {
-        match keycode {
-            KeyCode::P => {
-                self.imgui_wrapper.open_popup();
-            }
-            _ => (),
-        }
     }
 }

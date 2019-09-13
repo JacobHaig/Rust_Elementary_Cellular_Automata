@@ -17,6 +17,7 @@ pub fn rand_array(array: &mut [bool], p: f64) {
 pub fn wrap(mut n: isize) -> usize {
     const LEN: isize = ARRAY_LENGTH as isize;
 
+    // If we check left out of bounds then select the far right side of the array and vis versa for the right side.
     if n < 0       { n += LEN; }
     if n > LEN - 1 { n -= LEN; }
 

@@ -4,31 +4,30 @@
 // https://github.com/JacobHaig/Rust-Elementary-Cellular-Automata/
 
 mod array;
-mod imgui;
 mod state;
 
 extern crate ggez;
 use ggez::event::*;
 use ggez::*;
 
-const RULE: i32 = 57;
-const ARRAY_LENGTH: usize = 81;
-const ITERATIONS: usize = 70;
+const RULE: i32 = 18;
+const ARRAY_LENGTH: usize = 201;
+const ITERATIONS: usize = 400;
 
 // MAIN!
 fn main() {
     // Configuration
     let win_mode = ggez::conf::WindowMode {
-        width: 800.0,
-        height: 600.0,
+        height: 1200.0,
+        width: 600.0,
         maximized: false,
         resizable: true,
         borderless: false,
 
-        min_width: 100.0,
         min_height: 100.0,
-        max_width: 0.0,
+        min_width: 100.0,
         max_height: 0.0,
+        max_width: 0.0,
         fullscreen_type: ggez::conf::FullscreenType::Windowed,
     };
 
