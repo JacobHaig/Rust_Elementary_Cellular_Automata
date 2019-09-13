@@ -7,7 +7,3 @@ Recently, i've moved  to using ggez for all of the rendering. I have way more op
 #### Rule 18
 
 ![Rule 18](https://raw.githubusercontent.com/JacobHaig/Rust_Elementary_Cellular_Automata/master/images/rule18.png)
-
-#### Rule 40
-
-![Rule 40](https://raw.githubusercontent.com/JacobHaig/Rust_Elementary_Cellular_Automata/master/images/rule40.png)
