@@ -1,7 +1,6 @@
 extern crate ggez;
 
 use crate::*;
-use array;
 
 pub struct GameState {
     pub rules: [bool; 8],
@@ -9,7 +8,7 @@ pub struct GameState {
 }
 
 impl GameState {
-    pub fn new(mut ctx: &mut Context, rule: i32) -> GameState {
+    pub fn new(_ctx: &mut Context, rule: i32) -> GameState {
         GameState {
             rules: array::rule_to_bin(rule), // Generate the Rules
             vect: Vec::new(),
@@ -40,8 +39,7 @@ impl EventHandler for state::GameState {
     // Draw code here...
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         // Set screen to white
-        ggez::graphics::clear(ctx, ggez::graphics::WHITE);
-
+        ggez::graphics::clear(ctx, ggez::graphics::Color::WHITE);
 
         // IDK why 600 and 800 are the factors. Maybe its the default and im scaling it when I change the resolution?
         let block_height = 600.0 / ITERATIONS as f32;
@@ -62,7 +60,13 @@ impl EventHandler for state::GameState {
                     );
 
                     // Append a rectangle to mesh_builder
-                    mesh_builder.rectangle(ggez::graphics::DrawMode::fill(), rect, graphics::BLACK);
+                    mesh_builder
+                        .rectangle(
+                            ggez::graphics::DrawMode::fill(),
+                            rect,
+                            graphics::Color::BLACK,
+                        )
+                        .unwrap();
                 }
             }
         }

@@ -20,20 +20,17 @@ fn main() {
     let win_mode = ggez::conf::WindowMode {
         height: 1200.0,
         width: 600.0,
-        maximized: false,
         resizable: true,
-        borderless: false,
 
         min_height: 100.0,
         min_width: 100.0,
-        max_height: 0.0,
-        max_width: 0.0,
         fullscreen_type: ggez::conf::FullscreenType::Windowed,
+        ..Default::default()
     };
 
     // Context
     let cb = ContextBuilder::new("Rust Elementary Cellular Automata", "Wisward");
-    let (mut ctx, mut event_loop) = cb.build().expect("Could not create context!");
+    let (mut ctx, event_loop) = cb.build().expect("Could not create context!");
     ggez::graphics::set_window_title(&ctx, "Rust Elementary Cellular Automata");
     ggez::graphics::set_mode(&mut ctx, win_mode).expect("Can't set window mode.");
 
@@ -42,8 +39,5 @@ fn main() {
     game_state.create_array();
 
     // Run Events
-    match ggez::event::run(&mut ctx, &mut event_loop, &mut game_state) {
-        Ok(_) => println!("Exited cleanly."),
-        Err(e) => println!("Error occured: {}", e),
-    }
+    ggez::event::run(ctx, event_loop, game_state);
 }
